@@ -11,51 +11,62 @@
   .container { max-width: 760px; margin: 0 auto; }
   h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
   .subtitle { font-size: 13px; color: #888780; margin-bottom: 1.5rem; }
+  .badge-row { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .badge { border-radius: 6px; padding: 4px 10px; font-size: 11px; }
+  .badge-blue { background: #E6F1FB; color: #185FA5; }
+  .badge-green { background: #EAF3DE; color: #3B6D11; }
   .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
   .metric-card { background: #f0efe8; border-radius: 8px; padding: 0.75rem 1rem; }
   .metric-label { font-size: 11px; color: #888780; margin-bottom: 4px; }
   .metric-value { font-size: 20px; font-weight: 500; }
   .metric-sub { font-size: 11px; color: #888780; margin-top: 4px; }
+  .metric-sub.up { color: #3B6D11; }
   .legend { display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; color: #888780; flex-wrap: wrap; }
   .legend span { display: flex; align-items: center; gap: 4px; }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
-  .chart-wrap { position: relative; width: 100%; height: 240px; margin-bottom: 1.5rem; }
+  .chart-wrap { position: relative; width: 100%; height: 260px; margin-bottom: 1.5rem; }
   .section-title { font-size: 12px; font-weight: 500; color: #888780; margin-bottom: 8px; }
   .insight-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
   .insight-card { background: #fff; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 0 8px 8px 0; padding: 0.75rem 1rem; }
   .insight-card h3 { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
   .insight-card p { font-size: 12px; color: #5f5e5a; line-height: 1.6; }
+  .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { text-align: left; padding: 6px 10px; color: #888780; font-weight: 400; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
+  td { padding: 8px 10px; border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+  tr.improved td { color: #3B6D11; background: #f4faf0; }
   .funnel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 6px; }
   .funnel-card { background: #f0efe8; border-radius: 8px; padding: 0.6rem 0.75rem; text-align: center; }
   .funnel-label { font-size: 11px; color: #888780; margin-bottom: 2px; }
   .funnel-value { font-size: 18px; font-weight: 500; }
-  .funnel-note { font-size: 11px; color: #888780; margin-top: 4px; }
-  @media (max-width: 480px) {
-    .metric-grid { grid-template-columns: repeat(3, 1fr); }
-    .metric-value { font-size: 16px; }
-  }
+  .funnel-note { font-size: 11px; color: #3B6D11; margin-top: 4px; }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>배차 데이터 인사이트</h1>
-  <p class="subtitle">3/13 – 3/19 · 나래물류 내부 모니터링</p>
+  <p class="subtitle">3/13 – 3/20 · 나래물류 내부 모니터링</p>
+
+  <div class="badge-row">
+    <span class="badge badge-blue">운영 개선 전 3/13~3/18</span>
+    <span class="badge badge-green">운영 개선 후 3/19~3/20</span>
+  </div>
 
   <div class="metric-grid">
     <div class="metric-card">
-      <p class="metric-label">콜등록률 범위</p>
-      <p class="metric-value">24 – 57%</p>
-      <p class="metric-sub">평균 38.5%</p>
+      <p class="metric-label">콜등록률 (개선 후 평균)</p>
+      <p class="metric-value">58.0%</p>
+      <p class="metric-sub up">개선 전 33.7% → +24%p</p>
     </div>
     <div class="metric-card">
-      <p class="metric-label">배차완료율 범위</p>
-      <p class="metric-value">67 – 82%</p>
-      <p class="metric-sub">평균 76.4%</p>
+      <p class="metric-label">배차완료율 (개선 후 평균)</p>
+      <p class="metric-value">78.2%</p>
+      <p class="metric-sub">개선 전 77.2% → 유지</p>
     </div>
     <div class="metric-card">
-      <p class="metric-label">최종전환율 범위</p>
-      <p class="metric-value">19 – 42%</p>
-      <p class="metric-sub">평균 29.3%</p>
+      <p class="metric-label">최종전환율 (개선 후 평균)</p>
+      <p class="metric-value">45.4%</p>
+      <p class="metric-sub up">개선 전 26.4% → +19%p</p>
     </div>
   </div>
 
@@ -68,58 +79,104 @@
     <canvas id="mainChart"></canvas>
   </div>
 
+  <p class="section-title">일별 데이터</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>날짜</th><th>전체</th><th>콜등록</th><th>배차완료</th>
+          <th>콜등록률</th><th>배차완료율</th><th>최종전환율</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>3/13</td><td>83</td><td>33</td><td>27</td><td>39.8%</td><td>81.8%</td><td>32.5%</td></tr>
+        <tr><td>3/16</td><td>75</td><td>18</td><td>14</td><td>24.0%</td><td>77.8%</td><td>18.7%</td></tr>
+        <tr><td>3/17</td><td>48</td><td>17</td><td>14</td><td>35.4%</td><td>82.4%</td><td>29.2%</td></tr>
+        <tr><td>3/18</td><td>59</td><td>21</td><td>14</td><td>35.6%</td><td>66.7%</td><td>23.7%</td></tr>
+        <tr class="improved"><td>3/19 ★</td><td>59</td><td>34</td><td>25</td><td>57.6%</td><td>73.5%</td><td>42.4%</td></tr>
+        <tr class="improved"><td>3/20 ★</td><td>60</td><td>35</td><td>29</td><td>58.3%</td><td>82.9%</td><td>48.3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <p class="section-title">인사이트</p>
   <div class="insight-list">
-    <div class="insight-card" style="border-left: 3px solid #D85A30;">
-      <h3>핵심 병목은 1단계 — 유입 → 콜등록</h3>
-      <p>콜등록률이 24~57%로 변동폭 33%p인 반면, 배차완료율은 67~82%로 15%p 수준. 최종 전환율의 등락은 사실상 1단계에서 결정됨. 여기를 개선하는 게 레버리지가 가장 큼.</p>
+    <div class="insight-card" style="border-left: 3px solid #1D9E75;">
+      <h3>3/19~3/20 연속 58% — 개선 효과 확인됨</h3>
+      <p>2일 연속 콜등록률 57~58% 유지. 1회성이 아니라 운영 습관이 바뀌고 있다는 신호. 다음 1주일 데이터가 추세 확정의 분기점.</p>
     </div>
     <div class="insight-card" style="border-left: 3px solid #378ADD;">
-      <h3>3/16 이상 징후 — 유입 많은데 등록 최저</h3>
-      <p>5일 중 유입이 75건으로 가장 많았지만 콜등록률은 24.0%로 최저. 트래픽 품질 문제인지, UI/UX 이탈인지 세션 데이터 확인 필요.</p>
+      <h3>배차완료율 82.9% — 볼륨 늘어도 품질 유지</h3>
+      <p>콜등록이 늘면 완료율이 빠지는 게 일반적인데, 3/20은 오히려 올랐음. 프로그램 처리 품질이 안정적이라는 신호.</p>
+    </div>
+    <div class="insight-card" style="border-left: 3px solid #D85A30;">
+      <h3>목표(콜등록률 60%) 코앞 — 이번 주가 관건</h3>
+      <p>현재 58.3%로 목표치 60%까지 1.7%p 차이. 이번 주 데이터가 60% 이상으로 올라서면 MVP 검증 기준 달성 가시권 진입.</p>
     </div>
     <div class="insight-card" style="border-left: 3px solid #BA7517;">
-      <h3>3/18 2단계 단독 이상 — 매칭 로직 점검</h3>
-      <p>콜등록률(35.6%)은 평균 수준이었지만 배차완료율만 66.7%로 최저. 매칭 단계 자체 이슈로 해당일 배차 거절·미응답·시스템 오류 여부 확인 권장.</p>
-    </div>
-    <div class="insight-card" style="border-left: 3px solid #1D9E75;">
-      <h3>3/19 최고 전환 — 조건 분석해서 재현 목표로</h3>
-      <p>콜등록률 57.6%, 최종전환율 42.4%로 5일 중 최고. 이날의 유입 경로·시간대·오더 유형을 분석해 재현 가능한 조건으로 정의할 것.</p>
+      <h3>핵심 병목은 여전히 1단계 — 콜 미등록 42%</h3>
+      <p>개선 후에도 전체 콜의 42%는 수기로 처리 중. 운영자가 프로그램을 안 쓰는 케이스 유형 파악이 다음 개선 과제.</p>
     </div>
   </div>
 
-  <p class="section-title">퍼널 손실 시뮬레이션 — 100건 유입 시</p>
+  <p class="section-title">퍼널 손실 시뮬레이션 — 100건 유입 시 (개선 후 평균 기준)</p>
   <div class="funnel-grid">
     <div class="funnel-card">
       <p class="funnel-label">유입</p>
       <p class="funnel-value">100건</p>
     </div>
     <div class="funnel-card">
-      <p class="funnel-label">콜등록 (avg 38.5%)</p>
-      <p class="funnel-value" style="color:#378ADD;">39건</p>
+      <p class="funnel-label">콜등록 (58.0%)</p>
+      <p class="funnel-value" style="color:#378ADD;">58건</p>
     </div>
     <div class="funnel-card">
-      <p class="funnel-label">배차완료 (avg 76.4%)</p>
-      <p class="funnel-value" style="color:#1D9E75;">30건</p>
+      <p class="funnel-label">배차완료 (78.2%)</p>
+      <p class="funnel-value" style="color:#1D9E75;">45건</p>
     </div>
   </div>
-  <p class="funnel-note">콜등록률을 3/19 수준(57.6%)으로 높이면 → 배차완료 44건으로 +47% 증가</p>
+  <p class="funnel-note">콜등록률 60% 달성 시 → 배차완료 47건으로 추가 +2건 증가</p>
 </div>
 
 <script>
+const labels = ['3/13','3/16','3/17','3/18','3/19','3/20'];
+const regRate   = [39.8, 24.0, 35.4, 35.6, 57.6, 58.3];
+const doneReg   = [81.8, 77.8, 82.4, 66.7, 73.5, 82.9];
+const finalRate = [32.5, 18.7, 29.2, 23.7, 42.4, 48.3];
+
 new Chart(document.getElementById('mainChart'), {
   type: 'line',
   data: {
-    labels: ['3/13','3/16','3/17','3/18','3/19'],
+    labels,
     datasets: [
-      { label:'콜등록률', data:[39.8,24.0,35.4,35.6,57.6], borderColor:'#378ADD', backgroundColor:'rgba(55,138,221,0.06)', tension:0.3, pointRadius:5, pointHoverRadius:7, fill:false },
-      { label:'배차완료율(등록→완료)', data:[81.8,77.8,82.4,66.7,73.5], borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.06)', tension:0.3, pointRadius:5, pointHoverRadius:7, fill:false },
-      { label:'최종 전환율', data:[32.5,18.7,29.2,23.7,42.4], borderColor:'#D85A30', backgroundColor:'rgba(216,90,48,0.06)', tension:0.3, pointRadius:5, pointHoverRadius:7, fill:false }
+      {
+        label:'콜등록률', data: regRate, tension:0.3, pointRadius:5, pointHoverRadius:7, fill:false,
+        pointBackgroundColor: regRate.map((v,i) => i>=4 ? '#378ADD' : '#fff'),
+        pointBorderColor: regRate.map((v,i) => i>=4 ? '#378ADD' : 'rgba(55,138,221,0.4)'),
+        borderColor: '#378ADD',
+        segment: { borderColor: ctx => ctx.p0DataIndex >= 3 ? '#378ADD' : 'rgba(55,138,221,0.3)', borderDash: ctx => ctx.p0DataIndex >= 3 ? [] : [4,3] }
+      },
+      {
+        label:'배차완료율(등록→완료)', data: doneReg, tension:0.3, pointRadius:5, pointHoverRadius:7, fill:false,
+        pointBackgroundColor: doneReg.map((v,i) => i>=4 ? '#1D9E75' : '#fff'),
+        pointBorderColor: doneReg.map((v,i) => i>=4 ? '#1D9E75' : 'rgba(29,158,117,0.4)'),
+        borderColor: '#1D9E75',
+        segment: { borderColor: ctx => ctx.p0DataIndex >= 3 ? '#1D9E75' : 'rgba(29,158,117,0.3)', borderDash: ctx => ctx.p0DataIndex >= 3 ? [] : [4,3] }
+      },
+      {
+        label:'최종 전환율', data: finalRate, tension:0.3, pointRadius:5, pointHoverRadius:7, fill:false,
+        pointBackgroundColor: finalRate.map((v,i) => i>=4 ? '#D85A30' : '#fff'),
+        pointBorderColor: finalRate.map((v,i) => i>=4 ? '#D85A30' : 'rgba(216,90,48,0.4)'),
+        borderColor: '#D85A30',
+        segment: { borderColor: ctx => ctx.p0DataIndex >= 3 ? '#D85A30' : 'rgba(216,90,48,0.3)', borderDash: ctx => ctx.p0DataIndex >= 3 ? [] : [4,3] }
+      }
     ]
   },
   options: {
     responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ctx.dataset.label+': '+ctx.parsed.y+'%' } } },
+    plugins:{
+      legend:{ display:false },
+      tooltip:{ callbacks:{ label: ctx => ctx.dataset.label+': '+ctx.parsed.y+'%' } }
+    },
     scales:{
       y:{ min:0, max:100, ticks:{ callback: v => v+'%', font:{size:12}, color:'#888780' }, grid:{ color:'rgba(0,0,0,0.06)' }, border:{ display:false } },
       x:{ ticks:{ font:{size:12}, color:'#888780', autoSkip:false }, grid:{ display:false }, border:{ display:false } }
